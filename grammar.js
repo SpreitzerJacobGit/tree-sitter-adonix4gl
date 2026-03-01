@@ -42,8 +42,8 @@ export default grammar({
         $.variable_definition,
         $.class_definition,
         $.parameter_definition,
-        $.prog_definition,
-        $.label_definition,
+        field("prog", $.prog_definition),
+        field("label", $.label_definition),
       ),
     flow: ($) =>
       choice(
