@@ -426,17 +426,8 @@
           "type": "FIELD",
           "name": "type",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "Subprog"
-              },
-              {
-                "type": "STRING",
-                "value": "Funprog"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "prog_type"
           }
         },
         {
@@ -809,6 +800,19 @@
         {
           "type": "STRING",
           "value": "Variable"
+        }
+      ]
+    },
+    "prog_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Subprog"
+        },
+        {
+          "type": "STRING",
+          "value": "Funprog"
         }
       ]
     },

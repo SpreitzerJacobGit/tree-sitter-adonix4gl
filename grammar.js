@@ -84,7 +84,7 @@ export default grammar({
       ),
     prog_definition: ($) =>
       seq(
-        field("type", choice("Subprog", "Funprog")),
+        field("type", $.prog_type),
         field("name", $.identifier),
         field("params", $.list),
       ),
@@ -137,6 +137,7 @@ export default grammar({
     range: ($) => /([0-9]+)\.\.([0-9]*)/,
     scope: ($) => choice("Local", "Global"),
     parameter_scope: ($) => choice("Value", "Variable"),
+    prog_type: ($) => choice("Subprog", "Funprog"),
     type: ($) =>
       choice(
         "Integer",

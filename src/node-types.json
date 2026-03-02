@@ -429,16 +429,17 @@
         "required": true,
         "types": [
           {
-            "type": "Funprog",
-            "named": false
-          },
-          {
-            "type": "Subprog",
-            "named": false
+            "type": "prog_type",
+            "named": true
           }
         ]
       }
     }
+  },
+  {
+    "type": "prog_type",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "scope",
