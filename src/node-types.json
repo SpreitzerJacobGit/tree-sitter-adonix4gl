@@ -299,6 +299,11 @@
     }
   },
   {
+    "type": "label_definition",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -387,20 +392,41 @@
   {
     "type": "prog_definition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "params": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Funprog",
+            "named": false
+          },
+          {
+            "type": "Subprog",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -726,10 +752,6 @@
   },
   {
     "type": "identifier",
-    "named": true
-  },
-  {
-    "type": "label_definition",
     "named": true
   },
   {

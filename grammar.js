@@ -184,5 +184,7 @@ export default grammar({
     comment: ($) => /#.+/,
     keyword: ($) => /[a-zA-Z$]+/,
     class: ($) => /\[.{1,8}\]/,
+    brackets: ($) => choice("(", ")", "[", "]", "{", "}"),
+    string_types: ($) => choice("'", '"'),
   },
 });
