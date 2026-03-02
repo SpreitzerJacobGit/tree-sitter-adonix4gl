@@ -301,7 +301,18 @@
   {
     "type": "label_definition",
     "named": true,
-    "fields": {}
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "label_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "list",
@@ -752,6 +763,10 @@
   },
   {
     "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "label_identifier",
     "named": true
   },
   {

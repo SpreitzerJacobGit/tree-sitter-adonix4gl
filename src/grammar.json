@@ -906,9 +906,13 @@
       "type": "FIELD",
       "name": "label",
       "content": {
-        "type": "PATTERN",
-        "value": "\\$[_a-zA-Z]+[_a-zA-Z0-9]*"
+        "type": "SYMBOL",
+        "name": "label_identifier"
       }
+    },
+    "label_identifier": {
+      "type": "PATTERN",
+      "value": "\\$[_a-zA-Z]+[_a-zA-Z0-9]*"
     },
     "dynamic_identifier": {
       "type": "PATTERN",

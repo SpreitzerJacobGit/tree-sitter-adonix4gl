@@ -151,7 +151,8 @@ export default grammar({
     field: ($) => prec.left(1, seq($.class, $.identifier, optional($.list))),
     identifier: ($) => /[_a-zA-Z]+[_a-zA-Z0-9]*\${0,1}/,
     array_identifier: ($) => prec.left(seq($.identifier, repeat1($.list))),
-    label_definition: ($) => field("label", /\$[_a-zA-Z]+[_a-zA-Z0-9]*/),
+    label_definition: ($) => field("label", $.label_identifier),
+    label_identifier: ($) => /\$[_a-zA-Z]+[_a-zA-Z0-9]*/,
     dynamic_identifier: ($) => /=[_a-zA-Z]+[_a-zA-Z0-9]*/,
     number: ($) => /\d+/,
     operand: ($) =>
