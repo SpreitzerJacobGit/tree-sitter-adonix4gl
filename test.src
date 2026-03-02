@@ -1,0 +1,7 @@
+TBPAR(1) = "string" : TBVA(1) =  [M:SIH1]SALFCY
+TBPAR(2) = "string" : TBVA(2) =  [M:SIH2]SALFCY
+TBPAR(3) = "string" : TBVA(DBNUM) =  [M:SIH3]SALFCY
+TBPAR(3) = "string" : TBVA(TBNUM) =  [M:SIH3]SALFCY
+TBPAR(3) = "string" : TBVA(TBNUM) =  [M:SIH3]SALFCY
+
+TEST = string$(A=B, "TEST", "TEST2")

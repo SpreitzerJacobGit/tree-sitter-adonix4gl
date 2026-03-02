@@ -12,14 +12,20 @@ export default grammar({
 
   conflicts: ($) => [
     [$.dims],
-    [$.list, $.paren_expression],
+    [$.keyword_funciton],
+    [$.paren_expression, $.list],
     [$.instruction, $.expression],
     [$.source_file, $.expression],
-    [$.keyword_funciton, $.array_identifier],
-    [$.keyword_funciton, $.array_identifier, $.expression],
+    [$.identifier, $.expression],
   ],
 
-  supertypes: ($) => [$.expression, $.definition, $.literal, $.function],
+  supertypes: ($) => [
+    $.expression,
+    $.definition,
+    $.literal,
+    $.function,
+    $.identifier,
+  ],
 
   rules: {
     source_file: ($) =>
@@ -33,7 +39,7 @@ export default grammar({
             $.instruction,
             $.operation,
           ),
-          optional(":"),
+          optional(choice(":", "\n")),
         ),
       ),
 
@@ -114,11 +120,15 @@ export default grammar({
       ),
     paren_expression: ($) => seq("(", $.expression, ")"),
     list: ($) =>
-      choice("()", seq("(", $.expression, repeat(seq(",", $.expression)), ")")),
-    dims: ($) => repeat1(seq("(", $.expression, ")")),
+      choice(
+        "()",
+        seq("(", $.expression, optional(repeat(seq(",", $.expression))), ")"),
+      ),
+    dims: ($) => repeat1($.paren_expression),
 
     function: ($) => choice($.keyword_funciton, prec(1, $.funprog_funciton)),
-    keyword_funciton: ($) => seq($.identifier, $.list),
+    keyword_funciton: ($) =>
+      seq($.func_keyword, repeat(choice($.list, $.expression, $.func_keyword))),
     funprog_funciton: ($) =>
       seq(
         "func",
@@ -151,8 +161,10 @@ export default grammar({
         "Mask",
       ),
     field: ($) => prec.left(1, seq($.class, $.identifier, optional($.list))),
-    identifier: ($) => /[_a-zA-Z]+[_a-zA-Z0-9]*\${0,1}/,
-    array_identifier: ($) => prec.left(seq($.identifier, repeat1($.list))),
+    identifier: ($) => choice($.array_identifier, $.single_identifier),
+    array_identifier: ($) =>
+      prec.left(1, seq($.single_identifier, $.paren_expression)),
+    single_identifier: ($) => /[_a-zA-Z]+[_a-zA-Z0-9]*\${0,1}/,
     label_definition: ($) => field("label", $.label_identifier),
     label_identifier: ($) => /\$[_a-zA-Z]+[_a-zA-Z0-9]*/,
     dynamic_identifier: ($) => /=[_a-zA-Z]+[_a-zA-Z0-9]*/,
@@ -189,5 +201,6 @@ export default grammar({
     class: ($) => /\[.{1,8}\]/,
     brackets: ($) => choice("(", ")", "[", "]", "{", "}"),
     string_types: ($) => choice("'", '"'),
+    func_keyword: ($) => choice("clalev", "string$"),
   },
 });

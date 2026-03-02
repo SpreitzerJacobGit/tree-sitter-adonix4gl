@@ -40,8 +40,17 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": ":"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ":"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "\n"
+                  }
+                ]
               },
               {
                 "type": "BLANK"
@@ -615,20 +624,28 @@
               "name": "expression"
             },
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "expression"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "expression"
+                      }
+                    ]
                   }
-                ]
-              }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "STRING",
@@ -641,21 +658,8 @@
     "dims": {
       "type": "REPEAT1",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "("
-          },
-          {
-            "type": "SYMBOL",
-            "name": "expression"
-          },
-          {
-            "type": "STRING",
-            "value": ")"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "paren_expression"
       }
     },
     "function": {
@@ -680,11 +684,27 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "func_keyword"
         },
         {
-          "type": "SYMBOL",
-          "name": "list"
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "list"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "func_keyword"
+              }
+            ]
+          }
         }
       ]
     },
@@ -914,28 +934,38 @@
       }
     },
     "identifier": {
-      "type": "PATTERN",
-      "value": "[_a-zA-Z]+[_a-zA-Z0-9]*\\${0,1}"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "array_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_identifier"
+        }
+      ]
     },
     "array_identifier": {
       "type": "PREC_LEFT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "single_identifier"
           },
           {
-            "type": "REPEAT1",
-            "content": {
-              "type": "SYMBOL",
-              "name": "list"
-            }
+            "type": "SYMBOL",
+            "name": "paren_expression"
           }
         ]
       }
+    },
+    "single_identifier": {
+      "type": "PATTERN",
+      "value": "[_a-zA-Z]+[_a-zA-Z0-9]*\\${0,1}"
     },
     "label_definition": {
       "type": "FIELD",
@@ -1111,6 +1141,19 @@
           "value": "\""
         }
       ]
+    },
+    "func_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "clalev"
+        },
+        {
+          "type": "STRING",
+          "value": "string$"
+        }
+      ]
     }
   },
   "extras": [
@@ -1124,8 +1167,11 @@
       "dims"
     ],
     [
-      "list",
-      "paren_expression"
+      "keyword_funciton"
+    ],
+    [
+      "paren_expression",
+      "list"
     ],
     [
       "instruction",
@@ -1136,12 +1182,7 @@
       "expression"
     ],
     [
-      "keyword_funciton",
-      "array_identifier"
-    ],
-    [
-      "keyword_funciton",
-      "array_identifier",
+      "identifier",
       "expression"
     ]
   ],
@@ -1152,7 +1193,8 @@
     "expression",
     "definition",
     "literal",
-    "function"
+    "function",
+    "identifier"
   ],
   "reserved": {}
 }
