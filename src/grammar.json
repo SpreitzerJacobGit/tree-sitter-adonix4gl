@@ -85,46 +85,23 @@
       ]
     },
     "flow": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "Goto"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "flow_identifier"
-            }
-          ]
+          "type": "FIELD",
+          "name": "call",
+          "content": {
+            "type": "SYMBOL",
+            "name": "flow_calls"
+          }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "Call"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "flow_identifier"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "Gosub"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "flow_identifier"
-            }
-          ]
+          "type": "FIELD",
+          "name": "identifier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "flow_identifier"
+          }
         }
       ]
     },
@@ -135,25 +112,8 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "If"
-                },
-                {
-                  "type": "STRING",
-                  "value": "Elsif"
-                },
-                {
-                  "type": "STRING",
-                  "value": "Case"
-                },
-                {
-                  "type": "STRING",
-                  "value": "For"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "flow_ifs"
             },
             {
               "type": "SYMBOL",
@@ -161,6 +121,53 @@
             }
           ]
         },
+        {
+          "type": "SYMBOL",
+          "name": "flow_instr"
+        }
+      ]
+    },
+    "flow_calls": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Goto"
+        },
+        {
+          "type": "STRING",
+          "value": "Call"
+        },
+        {
+          "type": "STRING",
+          "value": "Gosub"
+        }
+      ]
+    },
+    "flow_ifs": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "If"
+        },
+        {
+          "type": "STRING",
+          "value": "Elsif"
+        },
+        {
+          "type": "STRING",
+          "value": "Case"
+        },
+        {
+          "type": "STRING",
+          "value": "For"
+        }
+      ]
+    },
+    "flow_instr": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "STRING",
           "value": "Else"
@@ -172,6 +179,14 @@
         {
           "type": "STRING",
           "value": "Endcase"
+        },
+        {
+          "type": "STRING",
+          "value": "Return"
+        },
+        {
+          "type": "STRING",
+          "value": "End"
         }
       ]
     },
@@ -455,15 +470,23 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "FIELD",
+            "name": "identifier",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
           },
           {
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "list"
+                "type": "FIELD",
+                "name": "params",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "list"
+                }
               },
               {
                 "type": "BLANK"
@@ -477,21 +500,29 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": "From"
+                    "type": "FIELD",
+                    "name": "from",
+                    "content": {
+                      "type": "STRING",
+                      "value": "From"
+                    }
                   },
                   {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "identifier"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "dynamic_identifier"
-                      }
-                    ]
+                    "type": "FIELD",
+                    "name": "from_identifier",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "identifier"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "dynamic_identifier"
+                        }
+                      ]
+                    }
                   }
                 ]
               },

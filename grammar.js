@@ -46,18 +46,11 @@ export default grammar({
         field("label", $.label_definition),
       ),
     flow: ($) =>
-      choice(
-        seq("Goto", $.flow_identifier),
-        seq("Call", $.flow_identifier),
-        seq("Gosub", $.flow_identifier),
-      ),
-    conditional: ($) =>
-      choice(
-        seq(choice("If", "Elsif", "Case", "For"), $.expression),
-        "Else",
-        "Endif",
-        "Endcase",
-      ),
+      seq(field("call", $.flow_calls), field("identifier", $.flow_identifier)),
+    conditional: ($) => choice(seq($.flow_ifs, $.expression), $.flow_instr),
+    flow_calls: ($) => choice("Goto", "Call", "Gosub"),
+    flow_ifs: ($) => choice("If", "Elsif", "Case", "For"),
+    flow_instr: ($) => choice("Else", "Endif", "Endcase", "Return", "End"),
     instruction: ($) =>
       prec.right(seq($.identifier, repeat(seq($.expression, optional(","))))),
     operation: ($) => prec.right(1, seq($.expression, $.operand, $.expression)),
@@ -92,9 +85,17 @@ export default grammar({
     flow_identifier: ($) =>
       prec.right(
         seq(
-          $.identifier,
-          optional($.list),
-          optional(seq("From", choice($.identifier, $.dynamic_identifier))),
+          field("identifier", $.identifier),
+          optional(field("params", $.list)),
+          optional(
+            seq(
+              field("from", "From"),
+              field(
+                "from_identifier",
+                choice($.identifier, $.dynamic_identifier),
+              ),
+            ),
+          ),
         ),
       ),
 

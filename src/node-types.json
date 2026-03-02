@@ -154,11 +154,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "flow_ifs",
+          "named": true
+        },
+        {
+          "type": "flow_instr",
           "named": true
         }
       ]
@@ -210,40 +218,93 @@
   {
     "type": "flow",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "flow_identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "flow_calls",
+            "named": true
+          }
+        ]
+      },
+      "identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "flow_identifier",
+            "named": true
+          }
+        ]
+      }
     }
+  },
+  {
+    "type": "flow_calls",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "flow_identifier",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dynamic_identifier",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        }
-      ]
+    "fields": {
+      "from": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "From",
+            "named": false
+          }
+        ]
+      },
+      "from_identifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "dynamic_identifier",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "params": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "list",
+            "named": true
+          }
+        ]
+      }
     }
+  },
+  {
+    "type": "flow_ifs",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "flow_instr",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "funprog_funciton",
@@ -675,6 +736,10 @@
     "named": false
   },
   {
+    "type": "End",
+    "named": false
+  },
+  {
     "type": "Endcase",
     "named": false
   },
@@ -724,6 +789,10 @@
   },
   {
     "type": "Mask",
+    "named": false
+  },
+  {
+    "type": "Return",
     "named": false
   },
   {
