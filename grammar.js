@@ -58,7 +58,12 @@ export default grammar({
     flow_ifs: ($) => choice("If", "Elsif", "Case", "For"),
     flow_instr: ($) => choice("Else", "Endif", "Endcase", "Return", "End"),
     instruction: ($) =>
-      prec.right(seq($.identifier, repeat(seq($.expression, optional(","))))),
+      prec.right(
+        seq(
+          choice(prec(1, $.instruction_keyword), $.identifier),
+          repeat(seq($.expression, optional(","))),
+        ),
+      ),
     operation: ($) => prec.right(1, seq($.expression, $.operand, $.expression)),
     unary_operation: ($) => seq(choice("!", "-"), $.expression),
 
@@ -128,7 +133,10 @@ export default grammar({
 
     function: ($) => choice($.keyword_funciton, prec(1, $.funprog_funciton)),
     keyword_funciton: ($) =>
-      seq($.func_keyword, repeat(choice($.list, $.expression, $.func_keyword))),
+      seq(
+        $.keyword,
+        repeat(prec.right(choice($.list, $.expression, $.keyword))),
+      ),
     funprog_funciton: ($) =>
       seq(
         "func",
@@ -201,6 +209,6 @@ export default grammar({
     class: ($) => /\[.{1,8}\]/,
     brackets: ($) => choice("(", ")", "[", "]", "{", "}"),
     string_types: ($) => choice("'", '"'),
-    func_keyword: ($) => choice("clalev", "string$"),
+    instruction_keyword: ($) => choice("Infbox", "Commit", "Rollback"),
   },
 });

@@ -206,8 +206,21 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "instruction_keyword"
+                }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
           },
           {
             "type": "REPEAT",
@@ -684,26 +697,30 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "func_keyword"
+          "name": "keyword"
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "list"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "expression"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "func_keyword"
-              }
-            ]
+            "type": "PREC_RIGHT",
+            "value": 0,
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "list"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "keyword"
+                }
+              ]
+            }
           }
         }
       ]
@@ -1142,16 +1159,20 @@
         }
       ]
     },
-    "func_keyword": {
+    "instruction_keyword": {
       "type": "CHOICE",
       "members": [
         {
           "type": "STRING",
-          "value": "clalev"
+          "value": "Infbox"
         },
         {
           "type": "STRING",
-          "value": "string$"
+          "value": "Commit"
+        },
+        {
+          "type": "STRING",
+          "value": "Rollback"
         }
       ]
     }
